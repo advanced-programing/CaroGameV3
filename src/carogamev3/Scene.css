@@ -1,0 +1,22 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : May 14, 2019, 8:00:41 PM
+    Author     : admin
+*/
+.pane_board {
+    -fx-background-color: aquamarine; 
+}
+#lb_title {
+    -fx-font-size: 20px; 
+    -fx-font-weight: bold;
+    -fx-text-fill: darkmagenta;
+}
+#lb_message {
+    -fx-font-size: 16px; 
+    -fx-font-weight: bold;
+    -fx-text-fill: red; 
+}

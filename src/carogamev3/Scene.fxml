@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<BorderPane fx:id="pane_main" xmlns:fx="http://javafx.com/fxml" maxHeight="-Infinity" maxWidth="-Infinity" 
+minHeight="-Infinity" minWidth="-Infinity" prefHeight="619" prefWidth="820" fx:controller="carogamev3.FXMLController" >
+    <top>
+        <HBox alignment="CENTER" prefHeight="80.0" prefWidth="200" BorderPane.alignment="CENTER" >
+            <children>
+                <Label id="lb_title" fx:id="lb_title" alignment="CENTER" contentDisplay="CENTER" prefWidth="200" text="Caro By JavaFx" textAlignment="CENTER"     />
+            </children>
+        </HBox>
+    </top>
+    <right>
+        <VBox BorderPane.alignment="TOP_CENTER" alignment="TOP_CENTER" spacing="10"  prefHeight="200" prefWidth="200"   >
+            <children>
+                <Button onAction="#handleNewGame" mnemonicParsing="false" prefHeight="30" prefWidth="120" text="New game" wrapText="true" />
+                <Button mnemonicParsing="false" prefHeight="50" prefWidth="120" text="New with Computer" textAlignment="CENTER" wrapText="true" />
+                <Button id="bt_remote" mnemonicParsing="false" prefHeight="50" prefWidth="120" text="Play with Remote Player" textAlignment="CENTER" wrapText="true" />
+                <Button onAction="#handleClosing" mnemonicParsing="false" prefHeight="30" prefWidth="120" text="Close" />
+            </children>
+           <padding>
+                <Insets top="10"/>
+            </padding>
+        </VBox>
+    </right>
+    <bottom>
+        <HBox prefHeight="100" prefWidth="200" BorderPane.alignment="CENTER">
+            <children>
+                <Label text="Copy of Teacher"/>
+            </children>
+            <padding>
+                <Insets left="10" top="10"/>
+            </padding>
+        </HBox>
+    </bottom>
+    <left>
+        <GridPane BorderPane.alignment="CENTER" hgap="10" prefWidth="200" >
+            <columnConstraints>
+                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10" percentWidth="35"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10" prefWidth="120"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10" percentHeight="15" prefHeight="30" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10" percentHeight="15" prefHeight="30" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10" percentHeight="15" prefHeight="30" vgrow="SOMETIMES"/>
+            </rowConstraints>
+            <children>
+                <Label text="Board size: "/>
+                <ComboBox fx:id="cb_size" onAction="#handleBoardSizeChanged" prefWidth="150" GridPane.columnIndex="1"/>
+                <Label text="Level:" GridPane.rowIndex="1"/>
+                <ComboBox fx:id="cb_level" onAction="#handleLevelChanged" prefWidth="150" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                <Label text="Name:" GridPane.rowIndex="2" />
+                <TextField fx:id="tf_name" GridPane.columnIndex="1" GridPane.rowIndex="2" promptText="abcd"/>
+            </children>
+            <BorderPane.margin>
+                <Insets left="10" right="10" />
+            </BorderPane.margin>
+        </GridPane>
+    </left>
+    <center>
+        <GridPane>
+            <columnConstraints>
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10" percentWidth="50"/>
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10" prefWidth="100"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10" percentHeight="10" prefHeight="30" valignment="CENTER" vgrow="SOMETIMES"/>
+            </rowConstraints>
+            <children>
+                <HBox fx:id="pane_board" alignment="TOP_CENTER" BorderPane.alignment="CENTER" GridPane.columnSpan="2"/>
+                <Label id="lb_message" fx:id="lb_message" text="message" GridPane.rowIndex="1"/>
+            </children>
+        </GridPane>
+    </center>
+<!--    <stylesheets>
+        <URL value="@Scene.css"/>
+    </stylesheets>-->
+</BorderPane>
