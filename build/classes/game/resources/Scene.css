@@ -7,6 +7,9 @@ and open the template in the editor.
     Created on : May 14, 2019, 8:00:41 PM
     Author     : admin
 */
+.button {
+    -fx-font-size: 14px;
+}
 .pane_board {
     -fx-background-color: aquamarine; 
 }

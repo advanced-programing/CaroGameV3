@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.java.ConnectController">
+    <stylesheets>
+        <URL value="@connect.css" />
+    </stylesheets>
+    <!--    <fx:define>
+        <String fx:id="DEFAULT_PORT" fx:value="1051" />
+    </fx:define>-->
+    <center>
+        <VBox id="inputs" prefHeight="200.0" prefWidth="100.0" spacing="15" BorderPane.alignment="CENTER">
+            <BorderPane.margin>
+                <Insets bottom="15.0" left="15.0" right="10.0" top="15.0" />
+            </BorderPane.margin>
+   
+            <children>
+                <Label id="message" fx:id="message" text="Welcome to Networked Caro" />
+                <RadioButton id="mtext" fx:id="serverMode" mnemonicParsing="false" onAction="#selectServerMode" selected="true" text="Start a new game">
+               <toggleGroup>
+                  <ToggleGroup fx:id="toggleGroup1" />
+               </toggleGroup></RadioButton>
+                <HBox>
+                    <children>
+                        <Label text="Listen On Port" />
+                        <TextField fx:id="listeningPortInput" prefColumnCount="5" text="1051" />
+                    </children>
+                    <VBox.margin>
+                        <Insets left="50" />
+                    </VBox.margin>
+                </HBox>
+                <RadioButton id="mtext" fx:id="clientMode" mnemonicParsing="false" onAction="#selectClientMode" text="Connect to existing game" toggleGroup="$toggleGroup1" />
+                <HBox>
+                    <children>
+                        <Label text="Computer: " />
+                        <TextField fx:id="hostInput" disable="true" editable="true" prefColumnCount="30" text="localhost" />
+                    </children>
+                    <VBox.margin>
+                        <Insets left="50" />
+                    </VBox.margin>
+                </HBox>
+                <HBox>
+                    <children>
+                        <Label text="Port Number" />
+                        <TextField fx:id="connectPortInput" disable="true" editable="false" prefColumnCount="5" text="1051" />
+                    </children>
+                    <VBox.margin>
+                        <Insets left="50" />
+                    </VBox.margin>
+                </HBox>
+            </children>
+        </VBox>
+    </center>
+    <bottom>
+        <HBox alignment="CENTER" prefHeight="55.0" prefWidth="600.0" spacing="15" BorderPane.alignment="CENTER">
+            <children>
+                <Button mnemonicParsing="false" onAction="#cancel" text="Cancel" />
+                <Button mnemonicParsing="false" onAction="#doOK" text="Ok" />
+            </children>
+            <padding>
+                <Insets top="10" />
+            </padding>
+            <BorderPane.margin>
+                <Insets bottom="15" left="15.0" right="15" top="5.0" />
+            </BorderPane.margin>
+        </HBox>
+    </bottom>
+</BorderPane>

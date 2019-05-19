@@ -1,0 +1,21 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+#inputs {
+    -fx-pading-size: 20px;
+    -fx-border-color: black; 
+    -fx-border-width: 2px;
+}
+
+#mtext {
+    -fx-font: "arial";
+    -fx-font-size: 14px;
+    -fx-font-weight: bold; 
+}
+
+#message {
+    -fx-font: "times"; 
+    -fx-font-size: 24px; 
+    -fx-font-weight: bold;
+}

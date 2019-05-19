@@ -7,7 +7,7 @@
 
 
 <BorderPane fx:id="pane_main" xmlns:fx="http://javafx.com/fxml" maxHeight="-Infinity" maxWidth="-Infinity" 
-minHeight="-Infinity" minWidth="-Infinity" prefHeight="619" prefWidth="820" fx:controller="carogamev3.FXMLController" >
+minHeight="-Infinity" minWidth="-Infinity" prefHeight="619" prefWidth="820" fx:controller="game.java.SceneController" >
     <top>
         <HBox alignment="CENTER" prefHeight="80.0" prefWidth="200" BorderPane.alignment="CENTER" >
             <children>
@@ -20,7 +20,7 @@ minHeight="-Infinity" minWidth="-Infinity" prefHeight="619" prefWidth="820" fx:c
             <children>
                 <Button onAction="#handleNewGame" mnemonicParsing="false" prefHeight="30" prefWidth="120" text="New game" wrapText="true" />
                 <Button mnemonicParsing="false" prefHeight="50" prefWidth="120" text="New with Computer" textAlignment="CENTER" wrapText="true" />
-                <Button id="bt_remote" mnemonicParsing="false" prefHeight="50" prefWidth="120" text="Play with Remote Player" textAlignment="CENTER" wrapText="true" />
+                <Button onAction="#playRemote" fx:id="bt_remote" mnemonicParsing="false" prefHeight="50" prefWidth="120" text="Play with Remote Player" textAlignment="CENTER" wrapText="true" />
                 <Button onAction="#handleClosing" mnemonicParsing="false" prefHeight="30" prefWidth="120" text="Close" />
             </children>
            <padding>
@@ -78,7 +78,7 @@ minHeight="-Infinity" minWidth="-Infinity" prefHeight="619" prefWidth="820" fx:c
             </children>
         </GridPane>
     </center>
-<!--    <stylesheets>
+    <stylesheets>
         <URL value="@Scene.css"/>
-    </stylesheets>-->
+    </stylesheets>
 </BorderPane>

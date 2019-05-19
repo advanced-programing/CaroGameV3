@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package carogamev3;
+package game.java;
 
 import com.sun.javafx.collections.ObservableListWrapper;
 import java.net.URL;
@@ -20,7 +20,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
-public class FXMLController implements Initializable {
+public class SceneController implements Initializable {
     private static double BOARD_WIDTH = 390; 
     private static double BOARD_HEIGHT = 390; 
     private static double CELL_SIZE = 25; 
@@ -48,6 +48,13 @@ public class FXMLController implements Initializable {
     private int[][] playingMap;
     private int turn = 1; 
     
+    private MainApp application; 
+    @FXML
+    private Button bt_remote;
+    
+    public void setApp(MainApp application) {
+        this.application = application;
+    }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -244,5 +251,13 @@ public class FXMLController implements Initializable {
     @FXML
     private void handleClosing(ActionEvent event) {
         System.exit(0);
+    }
+
+    @FXML
+    private void playRemote(ActionEvent event) {
+        if (application == null) {
+        } else {
+            application.userChoseRemote(true); 
+        }
     }
 }
