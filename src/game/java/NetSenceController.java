@@ -123,25 +123,26 @@ public class NetSenceController implements Initializable {
         }
     }
     private void drawBoard(int n) {
+        System.out.println("Player X = " + state.playerPlayingX); 
+        System.out.println("Player O = " + state.playerPlayingO);
         board_gc.clearRect(0, 0, BOARD_WIDTH, BOARD_HEIGHT);
         board_gc.setFill(board_background);
-        double x = 0, y = 0;
-        //double w = 25, h = 25; 
+        board_gc.setLineWidth(3.0);
+        board_gc.setStroke(Color.RED);
+        board_gc.strokeRect(2, 2, pad + n * (CELL_SIZE + 4), pad + n * (CELL_SIZE + 4));
+
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 board_gc.fillRect(pad + i * (CELL_SIZE + 4), pad + j * (CELL_SIZE + 4), CELL_SIZE, CELL_SIZE);
                 if (state.playingMap[i][j] == state.playerPlayingX) {
-                    drawCross(j, j);
-                } else {
-                    if (state.playingMap[i][j] == state.playerPlayingO) {
-                        drawCircle(j, j);
-                    }
+                    drawCross(i, j);
+                } 
+                if (state.playingMap[i][j] == state.playerPlayingO) {
+                    drawCircle(i, j);
                 }
             }
         }
-        board_gc.setLineWidth(3.0);
-        board_gc.setStroke(Color.RED);
-        board_gc.strokeRect(2, 2, pad + n * (CELL_SIZE + 4), pad + n * (CELL_SIZE + 4));
+        
     }
         private void drawCross(int row, int col) {
         int inner_pad = 3;
@@ -175,6 +176,13 @@ public class NetSenceController implements Initializable {
             //Platform.exit(); 
         }
         this.state = state;
+        for (int i = 0; i < board_size; i++){ 
+            for (int j = 0; j < board_size; j++) 
+            {
+                System.out.print(state.playingMap[j][i] + "\t");
+            }
+            System.out.print("\n"); 
+        }
         drawBoard(DEFAULT_SIZE);
         if (state.playingMap == null) {
             return; 
@@ -216,7 +224,7 @@ public class NetSenceController implements Initializable {
             return; 
         }
         int row = (int) ((x - pad) / (CELL_SIZE + 4));
-        int col = (int) ((x - pad) / (CELL_SIZE + 4));
+        int col = (int) ((y - pad) / (CELL_SIZE + 4));
         if (row >= 0 && row < board_size && col >= 0 && col < board_size && state.playingMap[row][col] == 0) {
             connection.send(new int[] {row, col}); 
         }

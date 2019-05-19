@@ -49,7 +49,6 @@ public class CaroState implements Serializable {
         } else if (!gameInProgress && message.equals("newgame")) {
             System.out.println("new game message received.");
             startGame();
-            
         }
     }
 
