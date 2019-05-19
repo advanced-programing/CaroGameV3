@@ -200,6 +200,8 @@ public class NetSenceController implements Initializable {
     }
 
     private void doMouseClick(double x, double y) {
+        System.out.println("x = " + x);
+        System.out.println("y = " + y);
         if (state == null || state.playingMap == null) {
             return; 
         } 

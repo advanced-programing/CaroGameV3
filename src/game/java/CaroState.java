@@ -31,6 +31,8 @@ public class CaroState implements Serializable {
             }
             int row = move[0];
             int col = move[1];
+            System.out.println("row = " + row);
+            System.out.println("col = " + col); 
             if (row < 0 || row >= boardSize || col < 0 || col >= boardSize || playingMap[row][col] != 0) {
                 return;
             }
