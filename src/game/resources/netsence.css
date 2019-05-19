@@ -1,0 +1,8 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.lb_message {
+    -fx-font: "arial"; 
+    -fx-font-weight: bold;
+}

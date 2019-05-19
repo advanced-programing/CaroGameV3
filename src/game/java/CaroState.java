@@ -6,45 +6,51 @@
 package game.java;
 
 import java.io.Serializable;
+
 /**
  *
  * @author admin
  */
 public class CaroState implements Serializable {
-    public int[][] playingMap; 
-    private boolean gameInProgress;
-    public int playerPlayingX; 
-    public int playerPlayingO; 
-    private int currentPlayer;
-    private int boardSize; 
+
+    public int[][] playingMap;
+    public boolean gameInProgress;
+    public int playerPlayingX;
+    public int playerPlayingO;
+    public int currentPlayer;
+    private int boardSize = NetSenceController.DEFAULT_SIZE;
     public int winner;
     public boolean gameEndedInDraw;
-    
+    public boolean playerDisconnected;
+
     public void applyMessage(int sender, Object message) {
-        if (gameInProgress && message instanceof int [] && sender == currentPlayer) {
-            int []move = (int []) message; 
-            if (move == null || move.length != 2) 
+        if (gameInProgress && message instanceof int[] && sender == currentPlayer) {
+            int[] move = (int[]) message;
+            if (move == null || move.length != 2) {
                 return;
-            int row = move[0]; 
+            }
+            int row = move[0];
             int col = move[1];
-            if (row < 0 || row > boardSize || col < 0 || col > boardSize) 
-                return; 
-            playingMap[row][col] = (currentPlayer == playerPlayingX)? playerPlayingX: playerPlayingO;
+            if (row < 0 || row >= boardSize || col < 0 || col >= boardSize || playingMap[row][col] != 0) {
+                return;
+            }
+            playingMap[row][col] = (currentPlayer == playerPlayingX) ? playerPlayingX: playerPlayingO;
             if (checkWinner(row, col)) {
-                gameInProgress = false; 
-                winner = currentPlayer; 
-            } 
-            else if (checkDraw()) {
-                gameInProgress = false; 
-                gameEndedInDraw = true; 
+                gameInProgress = false;
+                winner = currentPlayer;
+            } else if (checkDraw()) {
+                gameInProgress = false;
+                gameEndedInDraw = true;
             } else {
-                currentPlayer = (currentPlayer == playerPlayingX)? playerPlayingO : playerPlayingX; 
+                currentPlayer = (currentPlayer == playerPlayingX) ? playerPlayingO : playerPlayingX;
             }
         } else if (!gameInProgress && message.equals("newgame")) {
-            startGame(); 
-        } 
+            System.out.println("new game message received.");
+            startGame();
+            
+        }
     }
-    
+
     private boolean checkWinner(int row, int col) {
         int[][] rc = {{0, -1, 0, 1}, {-1, 0, 1, 0}, {1, -1, -1, 1}, {-1, -1, 1, 1}};
         int i = row, j = col;
@@ -76,38 +82,43 @@ public class CaroState implements Serializable {
         return false;
     }
 
-    private boolean checkDraw(){
+    private boolean checkDraw() {
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
                 if (playingMap[i][j] == 0) {
-                    return false; 
+                    return false;
                 }
             }
         }
-        return true; 
+        return true;
     }
 
     private void startGame() {
-        resetBoard(boardSize); 
-        int xPlr = (Math.random() < 0.5) ? 1:2; 
-        playerPlayingX = xPlr; 
-        playerPlayingO = 3 - xPlr; 
-        gameEndedInDraw = false; 
-        winner = -1; 
-        gameInProgress = true; 
+        resetBoard(boardSize);
+        int xPlr = (Math.random() < 0.5) ? 1 : 2;
+        playerPlayingX = xPlr;
+        playerPlayingO = 3 - xPlr;
+        currentPlayer = playerPlayingX;
+        gameEndedInDraw = false;
+        winner = -1;
+        gameInProgress = true;
     }
 
     private void resetBoard(int size) {
         if (playingMap != null) {
-            playingMap = null; 
+            playingMap = null;
         }
-        playingMap = new int[size][size]; 
+        playingMap = new int[size][size];
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                playingMap[i][j] = 0; 
+                playingMap[i][j] = 0;
             }
         }
+    }
 
+    void startFristGame() {
+        startGame();
+        System.out.println("game start!"); 
     }
 
 }

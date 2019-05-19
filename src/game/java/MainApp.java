@@ -35,6 +35,13 @@ public class MainApp extends Application {
     /**
      * @param args the command line arguments
      */
+    /**
+     * Bellow variables used for playing with remote computer
+     */
+    public boolean beClient = false; 
+    public int hubPort; 
+    public String hubName;
+    
     private Group root = new Group(); 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -71,11 +78,40 @@ public class MainApp extends Application {
         }
     }
     
+    public boolean userPlayingRemote(boolean createConnect) {
+        if (createConnect) {
+            gotoNetGameScene();
+            return true; 
+        } else 
+            return false; 
+    }
+    public boolean userCancelRemote(boolean exit_selected) {
+        if (exit_selected) {
+            gotoGameScene();
+            return true; 
+        }
+        else 
+            return false; 
+    }
+    
     private void gotoNetworkedScene() {
         try {
             ConnectController networkedScene = 
                     (ConnectController)replaceSceneContent("/net/resources/Connect.fxml");
             networkedScene.setApp(this);
+        } catch(Exception ex) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex); 
+        } 
+    }
+    
+    private void gotoNetGameScene() {
+        try {
+            NetSenceController netGameScene = 
+                    (NetSenceController)replaceSceneContent("/game/resources/NetSence.fxml");
+            System.out.println("MA " + "hubName " + this.hubName);
+                System.out.println( "MA " + "hubport "+ this.hubPort);
+                System.out.println("MA " + "hubisListen" + this.beClient);
+            netGameScene.setApp(this);
         } catch(Exception ex) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex); 
         } 

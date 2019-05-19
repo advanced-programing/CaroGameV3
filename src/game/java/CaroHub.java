@@ -19,5 +19,20 @@ public class CaroHub extends Hub {
         state = new CaroState(); 
         setAutoreset(true); 
     }
+    @Override
+    protected void messageReceived(int playerID, Object message) {
+        state.applyMessage(playerID, message);
+        sendToAll(state);
+    }
+    @Override
+    protected void playerConnected(int playerID) {
+        if (getPlayerList().length == 2) {
+            shutdownServerSocket(); 
+            state.startFristGame();
+            sendToAll(state);
+            System.out.println("Enjoy your game guys");
+        }
+    }
+    
     
 }

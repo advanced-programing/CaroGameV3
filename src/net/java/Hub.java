@@ -32,10 +32,11 @@ public class Hub {
     
     public Hub(int port) throws IOException{
         playerConnections = new TreeMap<Integer, ConnectionToClient>(); 
-        incomingMessage = new LinkedBlockingQueue<>(); 
+        incomingMessage = new LinkedBlockingQueue<Message>(); 
         serverSocket = new ServerSocket(port); 
         System.out.println("Listening for client connections on port " + port);
         serverThread = new ServerThread(); 
+        serverThread.setDaemon(true);
         serverThread.start();
         Thread readerThread = new Thread() {
             public void run() {
@@ -58,7 +59,7 @@ public class Hub {
         autoreset = auto; 
     }
     
-    void messageReceived(int playerID, Object message) {
+    protected void messageReceived(int playerID, Object message) {
         sendToAll(new ForwardMessage(playerID, message));
     }
     
@@ -84,7 +85,7 @@ public class Hub {
         }
     }
 
-    synchronized public void playerConected(int ID) {
+    protected void playerConnected(int ID) {
     }
     synchronized private void connectionToClientClosedWithError(ConnectionToClient playerConnection, String message) {
         int ID = playerConnection.getPlayer(); 
@@ -115,7 +116,7 @@ public class Hub {
         playerConnections.put(ID, newConnection);
         StatusMessage sm = new StatusMessage(ID, true, getPlayerList());
         sendToAll(sm);
-        playerConected(ID);
+        playerConnected(ID);
         System.out.println("Connection just accept form client " + ID);
     }
     synchronized private void clientDisconnected(int playerID) {
@@ -126,6 +127,29 @@ public class Hub {
         playerDisconnected(playerID); 
         System.out.println("Connection with client number "  + playerID + " closed by DisconnectMessage from client" ); 
         }
+    }
+    
+    public void shutdownHub() {
+        shutdownServerSocket(); 
+        sendToAll(new DisconnectMessage("*shutdown*"));
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e){
+        }
+        for (ConnectionToClient pc: playerConnections.values())
+            pc.close();
+    }
+    public void shutdownServerSocket() {
+        if (serverThread == null)  
+            return; 
+        incomingMessage.clear();
+        shutdown = true; 
+        try {
+            serverSocket.close();
+        } catch(IOException e) {
+        }
+        serverThread = null; 
+        serverSocket = null; 
     }
     private class ServerThread extends Thread{
         @Override
@@ -149,7 +173,6 @@ public class Hub {
     }
         
     private class ConnectionToClient {
-
         private int playerID;
         private BlockingQueue<Message> incomingMessages;
         private LinkedBlockingQueue<Object> outgoingMessages;
@@ -159,14 +182,13 @@ public class Hub {
         private volatile boolean closed;
         private Thread sendThread;
         private volatile Thread receiveThread;
-        private Object receivedThread;
 
-        public ConnectionToClient(BlockingQueue<Message> receivedMessages, Socket connection) {
+        public ConnectionToClient(BlockingQueue<Message> receivedMessageQueue, Socket connection) {
             this.connection = connection;
-            incomingMessages = receivedMessages;
+            incomingMessages = receivedMessageQueue;
             outgoingMessages = new LinkedBlockingQueue<Object>();
             sendThread = new SendThread();
-
+            sendThread.start();
         }
 
         private int getPlayer() {
@@ -183,7 +205,7 @@ public class Hub {
         void close() {
             closed = true;
             sendThread.interrupt();
-            if (receivedThread != null) {
+            if (receiveThread != null) {
                 receiveThread.interrupt();
             }
             try {
@@ -222,7 +244,8 @@ public class Hub {
                     try {
                         closed = true;
                         connection.close();
-                    } catch (Exception e1) {
+                    } 
+                    catch (Exception e1) {
                     }
                     System.out.println("\nError while setting up connection: " + e);
                     e.printStackTrace();
@@ -244,11 +267,13 @@ public class Hub {
                                     close();
                                 }
                             }
-                        } catch (InterruptedException e) {
+                        } 
+                        catch (InterruptedException e) {
                             //connection is closed. 
                         }
                     }
-                } catch (Exception e) {
+                } 
+                catch (Exception e) {
                     if (!closed) {
                         closedWithError("Error while sending data to client");
                         System.out.println("Hub send thread terminated");
