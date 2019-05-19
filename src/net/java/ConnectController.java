@@ -91,9 +91,7 @@ public class ConnectController implements Initializable {
         boolean openAsServer = serverMode.isSelected(); 
         if (openAsServer) {
             int port; 
-            System.out.println("m3333" + listeningPortInput);
             try {
-                System.out.println("m3333" + listeningPortInput.getText());
                 port = Integer.parseInt(listeningPortInput.getText().trim());
                 System.out.println("port3333" + port);
                 if (port <= 0) 
@@ -115,7 +113,32 @@ public class ConnectController implements Initializable {
                 listeningPortInput.requestFocus();
                 return; 
             }
-        }
+        } 
+        else {
+            String host; 
+            int port; 
+            host = hostInput.getText().trim(); 
+            if (host.length() == 0){
+                errorMessage("You must enter the name or IP address of\n the computer that hosting the game.");
+                message.setText("You must enter the computer name");
+                hostInput.requestFocus();
+                return; 
+            }   
+            try {
+                port = Integer.parseInt(connectPortInput.getText().trim()); 
+                if (port <= 0) {
+                    throw new Exception(); 
+                }
+            }
+            catch (Exception e) {
+                errorMessage("The value in the \"Port Number\" box\nis not a legal positive integer!");
+                message.setText("Illegal port number.  Please try again!");
+                connectPortInput.selectAll();
+                connectPortInput.requestFocus();
+                return;
+            }
+            
+        } 
     }
 
     public void setApp(MainApp application) {
